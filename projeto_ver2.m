@@ -61,7 +61,8 @@ for i = 1:1
     [x,fval,exitflag,output,population] = gamultiobj(@(x)func_ver2(x),3,A,B,Aeq,Beq,LB,UB,@(x)rest_ver2(x,Vi),op);
     
     Vi = Vi + t*(Q_in(i) - pi*x(2)*x(1)^2 -pi*x(2)*x(3)^2);
-   
+    x
+    exitflag
     if Vi >= 55e6
         fprintf('The dam just collapsed! RUN!!!')
         disp(Vi)
@@ -73,7 +74,7 @@ for i = 1:1
    
     fprintf('The number of points on the Pareto front was: %d\n', size(x,1));
     fprintf('The number of generations was : %d\n', output.generations);
-    %scatter3(x(:,1),x(:,2),x(:,3),'filled')
+    scatter3(x(:,1),x(:,2),x(:,3),'filled')
    
 end
 
@@ -85,17 +86,24 @@ end
 clear
 clc
 
-x0 = [0;0];
+x0=[-10,-10];
 rng(1);
 Vi = 50e6;
 Q_in = randi([100,1000],1,50); % inflow
 t = 3600;
+op = optimset('MaxFunEvals',100000,'MaxIter',100000);%,'PlotFcns',@optimplotfval);
 
 for i = 1:50
-    op = optimset('MaxFunEvals',100000,'MaxIter',100000);%,'PlotFcns',@optimplotfval);
-    [x,fval,exitflag,output] = fminsearch(@(x)func_ver2_1obj(x),x0,op);
+    %for j=80:50:2000
+    for j=1:100:2000
+        xk=fminsearch('func_ver2_pen',x0,op,j);
+        fprintf('Penalty->%3i x->(%.5f,%.5f)\n',j,xk(1),xk(2));
+        x0=xk;
+    end
     
-    Vi = Vi + t*(Q_in(i) - pi*x(2)*x(1)^2);
+    %[x,fval,exitflag,output] = fminsearch(@(x)func_ver2_1obj(x),x0,op);
+    
+    Vi = Vi + t*(Q_in(i) - pi*xk(2)*xk(1)^2);
      
     if Vi >= 55e6
         fprintf('The dam just collapsed! RUN!!!')
