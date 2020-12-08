@@ -14,7 +14,7 @@ x_1 is the turbine's tube radius in meters<br/>
 x_2 is the water's velocity in m/s<br/>
 x_3 is the spillway's tube radius in meters
 
-##Restrictions
+## Restrictions
 
 0 ≤x_1 ≤ 3<br/>
 6 ≤x_2 ≤ 20<br/>
