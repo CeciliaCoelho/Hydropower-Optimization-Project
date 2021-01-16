@@ -7,7 +7,7 @@ It was concluded that the most adequate solver for the problem is a multiobjecti
 
 ## Objective function
 
-max (=−η∗ρ∗π∗x_1^2 ∗x_2 ∗g∗∆h)<br/>
+max (−η∗ρ∗π∗x_1^2 ∗x_2 ∗g∗∆h)<br/>
 min (π∗x_3^2 ∗x_2 )
 
 x_1 is the turbine's tube radius in meters<br/>
